@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+spec:
+  rules:
+    - host: acme.com
+      http: 
+        paths:
+          - path: /api/accounts
+            pathType: Prefix
+            backend: 
+              service:
+                name: accounting-service-clusterip
+                port: 
+                  number: 80
+          - path: /api/orders
+            pathType: Prefix
+            backend:
+              service:
+                name: ordering-service-clusterip
+                port:
+                  number: 80

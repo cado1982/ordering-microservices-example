@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ordering-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orderingservice
+  template:
+    metadata:
+      labels:
+        app: orderingservice
+    spec:
+      containers:
+      - name: orderingservice
+        image: cado82/microservices-example-ordering:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ordering-service-clusterip
+spec:
+  type: ClusterIP
+  selector:
+    app: orderingservice
+  ports:
+  - name: orderingservice
+    protocol: TCP
+    port: 80
+    targetPort: 80

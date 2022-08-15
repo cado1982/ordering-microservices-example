@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: accounting-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: accountingservice
+  template:
+    metadata:
+      labels:
+        app: accountingservice
+    spec:
+      containers:
+      - name: accountingservice
+        image: cado82/microservices-example-accounting:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: accounting-service-clusterip
+spec:
+  type: ClusterIP
+  selector:
+    app: accountingservice
+  ports:
+  - name: accountingservice
+    protocol: TCP
+    port: 80
+    targetPort: 80
