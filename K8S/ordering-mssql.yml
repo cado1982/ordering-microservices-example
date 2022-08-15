@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ordering-mssql-claim
+spec:
+  resources:
+    requests:
+      storage: 200Mi
+  accessModes:
+    - ReadWriteMany
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ordering-mssql
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: orderingmssql
+  template:
+    metadata:
+      labels:
+        app: orderingmssql
+    spec:
+      containers:
+        - name: orderingmssql
+          image: mcr.microsoft.com/mssql/server:2017-latest
+          ports:
+            - containerPort: 1433
+          env:
+          - name: MSSQL_PID
+            value: "Express"
+          - name: ACCEPT_EULA
+            value: "Y"
+          - name: SA_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mssql
+                key: SA_PASSWORD
+          volumeMounts:
+          - mountPath: /var/opt/mssql/data
+            name: mssqldb
+      volumes:
+      - name: mssqldb
+        persistentVolumeClaim:
+          claimName: ordering-mssql-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ordering-mssql-clusterip
+spec:
+  type: ClusterIP
+  selector:
+    app: orderingmssql
+  ports:
+  - name: mssql
+    protocol: TCP
+    port: 1433
+    targetPort: 1433
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ordering-mssql-loadbalancer
+spec:
+  type: LoadBalancer
+  selector:
+    app: orderingmssql
+  ports:
+  - protocol: TCP
+    port: 1433
+    targetPort: 1433
+

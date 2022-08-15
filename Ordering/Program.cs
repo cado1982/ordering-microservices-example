@@ -1,6 +1,24 @@
+using Microsoft.EntityFrameworkCore;
+using Ordering.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+if (builder.Environment.IsProduction())
+{
+    Console.WriteLine("--> Using SQL Server");
+    builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("OrderingMSSqlConnection")));
+}
+else
+{
+   Console.WriteLine("--> Using In Memory Database");
+   builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("OrderingInMem"));
+}
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -21,5 +39,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+PrepDb.PrepPopulation(app, app.Environment.IsProduction());
 
 app.Run();

@@ -17,7 +17,7 @@ spec:
                 name: accounting-service-clusterip
                 port: 
                   number: 80
-          - path: /api/orders
+          - path: /api/accounts/[0-9]+/orders
             pathType: Prefix
             backend:
               service:
