@@ -1,4 +1,5 @@
 using Accounting.Data;
+using Accounting.SyncDataServices.Grpc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +25,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddGrpc();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
@@ -40,6 +42,10 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGrpcService<GrpcAccountingService>();
+app.MapGet("/protos/accounts.proto", async context => {
+    await context.Response.WriteAsync(File.ReadAllText("Protos/accounts.proto"));
+});
 
 PrepDb.PrepPopulation(app, builder.Environment.IsProduction());
 

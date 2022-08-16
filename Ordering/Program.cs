@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Ordering.Data;
+using Ordering.SyncDataService.Grpc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,7 @@ else
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
+builder.Services.AddScoped<IAccountsDataClient, AccountsDataClient>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -34,7 +36,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

@@ -14,6 +14,9 @@ namespace Accounting.Profiles
         {
             CreateMap<Account, AccountReadDto>();
             CreateMap<AccountCreateDto, Account>();
+
+            CreateMap<Account, GrpcAccountModel>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
         }
     }
 }

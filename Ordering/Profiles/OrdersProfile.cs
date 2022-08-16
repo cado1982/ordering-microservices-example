@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Accounting;
 using AutoMapper;
 using Ordering.Dtos;
 using Ordering.Models;
@@ -14,6 +11,12 @@ namespace Ordering.Profiles
         {
             CreateMap<Account, AccountReadDto>();
             CreateMap<Order, OrderReadDto>();
+            CreateMap<OrderCreateDto, Order>();
+
+            CreateMap<GrpcAccountModel, Account>()
+                .ForMember(dest => dest.ExternalId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.Orders, opt => opt.Ignore());
         }
     }
 }

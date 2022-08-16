@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Ordering.Models;
+using Ordering.SyncDataService.Grpc;
 
 namespace Ordering.Data
 {
@@ -12,7 +14,15 @@ namespace Ordering.Data
         {
             using(var serviceScope = app.ApplicationServices.CreateScope())
             {
-                SeedData(serviceScope.ServiceProvider.GetService<AppDbContext>()!, isProd);
+                var grpcClient = serviceScope.ServiceProvider.GetService<IAccountsDataClient>()!;
+                var repo = serviceScope.ServiceProvider.GetService<IOrdersRepository>()!;
+                var dbContext = serviceScope.ServiceProvider.GetService<AppDbContext>()!;
+
+                var accounts = grpcClient.GetAllAccounts();
+
+                SaveAccounts(accounts, repo);
+
+                SeedData(dbContext, isProd);
             }
         }
 
@@ -31,6 +41,21 @@ namespace Ordering.Data
                     throw;
                 }
             }
+        }
+
+        private static void SaveAccounts(IEnumerable<Account> accounts, IOrdersRepository repo)
+        {
+            Console.WriteLine("Seeding new accounts...");
+
+            foreach (var account in accounts)
+            {
+                if (!repo.ExternalAccountExists(account.ExternalId))
+                {
+                    repo.CreateAccount(account);
+                }
+            }
+
+            repo.SaveChanges();
         }
     }
 }

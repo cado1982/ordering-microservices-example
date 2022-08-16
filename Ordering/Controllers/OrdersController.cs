@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Ordering.Data;
@@ -41,6 +37,21 @@ namespace Ordering.Controllers
             var orderReadDto = _mapper.Map<OrderReadDto>(order);
 
             return Ok(orderReadDto);
+        }
+
+        [HttpGet]
+        public ActionResult<IEnumerable<OrderReadDto>> GetOrdersForAccount(int accountId)
+        {
+            if (!_repository.AccountExists(accountId))
+            {
+                return NotFound();
+            }
+
+            var orders = _repository.GetOrdersForAccount(accountId);
+
+            var orderReadDtos = _mapper.Map<IEnumerable<OrderReadDto>>(orders);
+
+            return Ok(orderReadDtos);
         }
 
 

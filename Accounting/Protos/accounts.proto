@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option csharp_namespace = "Accounting";
+
+service GrpcAccountsService {
+    rpc GetAllAccounts (GetAllAccountsRequest) returns (GetAllAccountsResponse);
+}
+
+message GetAllAccountsRequest { }
+
+message GrpcAccountModel {
+    int32 id = 1;
+}
+
+message GetAllAccountsResponse {
+    repeated GrpcAccountModel accounts = 1;
+}
