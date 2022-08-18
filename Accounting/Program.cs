@@ -1,3 +1,4 @@
+using Accounting.AsyncDataServices;
 using Accounting.Data;
 using Accounting.SyncDataServices.Grpc;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
 builder.Services.AddGrpc();
 builder.Services.AddSwaggerGen();
 

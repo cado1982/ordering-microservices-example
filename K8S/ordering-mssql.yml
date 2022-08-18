@@ -70,6 +70,6 @@ spec:
     app: orderingmssql
   ports:
   - protocol: TCP
-    port: 1433
+    port: 1434
     targetPort: 1433
 

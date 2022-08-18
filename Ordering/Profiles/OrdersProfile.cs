@@ -17,6 +17,10 @@ namespace Ordering.Profiles
                 .ForMember(dest => dest.ExternalId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Orders, opt => opt.Ignore());
+
+            CreateMap<AccountPublishedDto, Account>()
+                .ForMember(dest => dest.ExternalId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
         }
     }
 }

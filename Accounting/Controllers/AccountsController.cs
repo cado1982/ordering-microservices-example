@@ -1,3 +1,4 @@
+using Accounting.AsyncDataServices;
 using Accounting.Data;
 using Accounting.Dtos;
 using Accounting.Models;
@@ -12,11 +13,16 @@ namespace Accounting.Controllers
     {
         private readonly IAccountingRepository _accountingRepository;
         private readonly IMapper _mapper;
+        private readonly IMessageBusClient _messageBusClient;
 
-        public AccountsController(IAccountingRepository accountingRepository, IMapper mapper)
+        public AccountsController(
+            IAccountingRepository accountingRepository,
+            IMapper mapper,
+            IMessageBusClient messageBusClient)
         {
             _accountingRepository = accountingRepository;
             _mapper = mapper;
+            _messageBusClient = messageBusClient;
         }
 
         [HttpGet]
@@ -53,6 +59,17 @@ namespace Accounting.Controllers
             _accountingRepository.SaveChanges();
 
             var accountReadDto = _mapper.Map<AccountReadDto>(accountModel);
+
+            try
+            {
+                var accountPublishedDto = _mapper.Map<AccountPublishedDto>(accountReadDto);
+                accountPublishedDto.Event = "Account_Published";
+                _messageBusClient.PublishNewAccount(accountPublishedDto);
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine($"--> Could not send asynchronously: {ex.Message}");
+            }
 
             return CreatedAtRoute(nameof(GetAccountById), new { Id = accountReadDto.Id }, accountReadDto);
         }

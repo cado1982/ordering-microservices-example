@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Ordering.AsyncDataServices;
 using Ordering.Data;
+using Ordering.EventProcessing;
 using Ordering.SyncDataService.Grpc;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +22,9 @@ else
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
+builder.Services.AddSingleton<IEventProcessor, EventProcessor>();
 builder.Services.AddScoped<IAccountsDataClient, AccountsDataClient>();
+builder.Services.AddHostedService<MessageBusSubscriber>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
