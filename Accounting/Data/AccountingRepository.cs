@@ -34,7 +34,5 @@ namespace Accounting.Data
         {
             return _context.SaveChanges() >= 0;
         }
-
-        
     }
 }

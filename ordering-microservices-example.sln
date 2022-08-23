@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accounting", "Accounting\Accounting.csproj", "{B0AE9095-4C61-4004-AF06-A20E5680A011}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordering", "Ordering\Ordering.csproj", "{9068026E-827F-4C38-BB9C-A12F2B9BBE65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accounting.Tests", "Accounting.Tests\Accounting.Tests.csproj", "{536334B3-67C9-4710-83E8-727604FBADAE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0AE9095-4C61-4004-AF06-A20E5680A011}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0AE9095-4C61-4004-AF06-A20E5680A011}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0AE9095-4C61-4004-AF06-A20E5680A011}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0AE9095-4C61-4004-AF06-A20E5680A011}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9068026E-827F-4C38-BB9C-A12F2B9BBE65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9068026E-827F-4C38-BB9C-A12F2B9BBE65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9068026E-827F-4C38-BB9C-A12F2B9BBE65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9068026E-827F-4C38-BB9C-A12F2B9BBE65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{536334B3-67C9-4710-83E8-727604FBADAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{536334B3-67C9-4710-83E8-727604FBADAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{536334B3-67C9-4710-83E8-727604FBADAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{536334B3-67C9-4710-83E8-727604FBADAE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

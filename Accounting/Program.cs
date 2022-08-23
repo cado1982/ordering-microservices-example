@@ -2,6 +2,7 @@ using Accounting.AsyncDataServices;
 using Accounting.Data;
 using Accounting.SyncDataServices.Grpc;
 using Microsoft.EntityFrameworkCore;
+using RabbitMQ.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,14 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
+
+var connectionFactory = new ConnectionFactory()
+{
+    HostName = builder.Configuration["RabbitMQHost"],
+    Port = Int32.Parse(builder.Configuration["RabbitMQPort"])
+};
+
+builder.Services.AddSingleton<IConnectionFactory>(connectionFactory);
 builder.Services.AddGrpc();
 builder.Services.AddSwaggerGen();
 

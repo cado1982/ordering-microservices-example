@@ -12,18 +12,13 @@ namespace Accounting.AsyncDataServices
     public class MessageBusClient : IMessageBusClient, IDisposable
     {
         private readonly IConfiguration _configuration;
+        //private readonly IConnectionFactory _connectionFactory;
         private readonly IConnection _connection;
         private readonly IModel _channel;
 
-        public MessageBusClient(IConfiguration configuration)
+        public MessageBusClient(IConfiguration configuration, IConnectionFactory connectionFactory)
         {
             _configuration = configuration;
-
-            var connectionFactory = new ConnectionFactory()
-            {
-                HostName = _configuration["RabbitMQHost"],
-                Port = Int32.Parse(_configuration["RabbitMQPort"])
-            };
 
             try 
             {
