@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using Accounting.Dtos;
 using RabbitMQ.Client;
 
@@ -12,9 +8,8 @@ namespace Accounting.AsyncDataServices
     public class MessageBusClient : IMessageBusClient, IDisposable
     {
         private readonly IConfiguration _configuration;
-        //private readonly IConnectionFactory _connectionFactory;
-        private readonly IConnection _connection;
-        private readonly IModel _channel;
+        private readonly IConnection? _connection;
+        private readonly IModel? _channel;
 
         public MessageBusClient(IConfiguration configuration, IConnectionFactory connectionFactory)
         {
@@ -46,7 +41,7 @@ namespace Accounting.AsyncDataServices
         {
             var message = JsonSerializer.Serialize(accountPublishedDto);
 
-            if (_connection.IsOpen)
+            if (_connection!.IsOpen)
             {
                 SendMessage(message);
             }
@@ -59,10 +54,10 @@ namespace Accounting.AsyncDataServices
         public void Dispose()
         {
             Console.WriteLine("--> Message bus disposed");
-            if (_channel.IsOpen)
+            if (_channel!.IsOpen)
             {
-                _channel.Close();
-                _connection.Close();
+                _channel!.Close();
+                _connection!.Close();
             }
         }
 

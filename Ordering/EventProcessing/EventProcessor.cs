@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 using AutoMapper;
-using Ordering.Data;
 using Ordering.Dtos;
-using Ordering.Models;
 
 namespace Ordering.EventProcessing
 {
@@ -14,69 +9,47 @@ namespace Ordering.EventProcessing
     {
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly IMapper _mapper;
+        private readonly IEnumerable<IEventHandler> _eventHandlers;
 
-        public EventProcessor(IServiceScopeFactory scopeFactory, IMapper mapper)
+        public EventProcessor(IServiceScopeFactory scopeFactory, IMapper mapper, IEnumerable<IEventHandler> eventHandlers)
         {
             _scopeFactory = scopeFactory;
             _mapper = mapper;
+            _eventHandlers = eventHandlers;
+
+            JsonSerializerOptions options = new JsonSerializerOptions{
+                Converters ={
+                    new JsonStringEnumConverter()
+                }
+            };
         }
 
         public void ProcessEvent(string message)
         {
             EventType eventType = DetermineEvent(message);
 
-            switch (eventType)
+            var eventHandler = _eventHandlers.SingleOrDefault(e => e.EventType == eventType);
+
+            if (eventHandler == null)
             {
-                case EventType.AccountPublished:
-                AddAccount(message);
-                    break;
+                Console.WriteLine($"--> Unable to find event handler for event: {eventType}");
+                return;
             }
+
+            eventHandler.Handle(message);
         }
 
         private EventType DetermineEvent(string eventMessage)
         {
             Console.WriteLine($"--> Determining event type {eventMessage}");
 
-            var eventType = JsonSerializer.Deserialize<GenericEventDto>(eventMessage);
+            var options = new JsonSerializerOptions{
+                Converters = { new JsonStringEnumConverter() }
+            };
 
-            switch(eventType.Event)
-            {
-                case "Account_Published":
-                    return EventType.AccountPublished;
-                default:
-                    return EventType.Undetermined;
-            }
+            var genericEventDto = JsonSerializer.Deserialize<GenericEventDto>(eventMessage, options);
+
+            return genericEventDto!.EventType;
         }
-
-        private void AddAccount(string accountPublishedMessage)
-        {
-            using (var scope = _scopeFactory.CreateScope())
-            {
-                var repo = scope.ServiceProvider.GetRequiredService<IOrdersRepository>();
-                var accountPublishedDto = JsonSerializer.Deserialize<AccountPublishedDto>(accountPublishedMessage);
-
-                try
-                {
-                    var account = _mapper.Map<Account>(accountPublishedDto);
-
-                    if (!repo.ExternalAccountExists(account.ExternalId))
-                    {
-                        repo.CreateAccount(account);
-                        repo.SaveChanges();
-                        Console.WriteLine("--> Account added");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"--> Could not add account to db {ex.Message}");
-                }
-            }
-        }
-    }
-
-    enum EventType
-    {
-        AccountPublished,
-        Undetermined
     }
 }

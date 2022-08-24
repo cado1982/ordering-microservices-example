@@ -3,6 +3,7 @@ using Ordering.AsyncDataServices;
 using Ordering.Data;
 using Ordering.EventProcessing;
 using Ordering.SyncDataService.Grpc;
+using RabbitMQ.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,9 +23,20 @@ else
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
-builder.Services.AddSingleton<IEventProcessor, EventProcessor>();
+builder.Services.AddScoped<IEventProcessor, EventProcessor>();
 builder.Services.AddScoped<IAccountsDataClient, AccountsDataClient>();
-builder.Services.AddHostedService<MessageBusSubscriber>();
+builder.Services.AddHostedService<MessageBusBackgroundService>();
+builder.Services.AddScoped<IMessageBusSubscriber, MessageBusSubscriber>();
+
+builder.Services.AddScoped<IEventHandler, AccountPublishedEventHandler>();
+
+var connectionFactory = new ConnectionFactory()
+{
+    HostName = builder.Configuration["RabbitMQHost"],
+    Port = Int32.Parse(builder.Configuration["RabbitMQPort"])
+};
+
+builder.Services.AddSingleton<IConnectionFactory>(connectionFactory);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordering", "Ordering\Orderi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accounting.Tests", "Accounting.Tests\Accounting.Tests.csproj", "{536334B3-67C9-4710-83E8-727604FBADAE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordering.Tests", "Ordering.Tests\Ordering.Tests.csproj", "{3C6AC54F-D895-4739-A6D2-26FE349C7AFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{536334B3-67C9-4710-83E8-727604FBADAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{536334B3-67C9-4710-83E8-727604FBADAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{536334B3-67C9-4710-83E8-727604FBADAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C6AC54F-D895-4739-A6D2-26FE349C7AFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C6AC54F-D895-4739-A6D2-26FE349C7AFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C6AC54F-D895-4739-A6D2-26FE349C7AFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C6AC54F-D895-4739-A6D2-26FE349C7AFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

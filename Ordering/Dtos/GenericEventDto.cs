@@ -1,7 +1,9 @@
+using Ordering.EventProcessing;
+
 namespace Ordering.Dtos
 {
     public class GenericEventDto
     {
-        public string? Event { get; set; }
+        public EventType EventType { get; set; }
     }
 }

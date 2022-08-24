@@ -11,21 +11,21 @@ namespace Accounting.Tests.AsyncDataServices
     {
         private MessageBusClient? _sut;
 
-        private Mock<IConfiguration> _configuration = new Mock<IConfiguration>();
-        private Mock<IConnection> _connection = new Mock<IConnection>();
-        private Mock<IModel> _channel = new Mock<IModel>();
-        private Mock<IConnectionFactory> _connectionFactory = new Mock<IConnectionFactory>();
+        private Mock<IConfiguration> _configurationMock = new Mock<IConfiguration>();
+        private Mock<IConnection> _connectionMock = new Mock<IConnection>();
+        private Mock<IModel> _channelMock = new Mock<IModel>();
+        private Mock<IConnectionFactory> _connectionFactoryMock = new Mock<IConnectionFactory>();
 
         private string _exchangeName = "SampleExchangeName";
 
         public MessageBusClientTests()
         {
-            _configuration.Setup(c => c["RabbitMQExchange"]).Returns(_exchangeName);
+            _configurationMock.Setup(c => c["RabbitMQExchange"]).Returns(_exchangeName);
 
-            _connectionFactory.Setup(f => f.CreateConnection()).Returns(_connection.Object);
-            _connection.Setup(c => c.CreateModel()).Returns(_channel.Object);
-            _connection.Setup(c => c.IsOpen).Returns(true);
-            _channel.Setup(c => c.IsOpen).Returns(true);
+            _connectionFactoryMock.Setup(f => f.CreateConnection()).Returns(_connectionMock.Object);
+            _connectionMock.Setup(c => c.CreateModel()).Returns(_channelMock.Object);
+            _connectionMock.Setup(c => c.IsOpen).Returns(true);
+            _channelMock.Setup(c => c.IsOpen).Returns(true);
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace Accounting.Tests.AsyncDataServices
             CreateSUT();
 
             // Assert
-            _channel.Verify(c => c.ExchangeDeclare(_exchangeName, ExchangeType.Fanout, true, false, null), Times.Once);
+            _channelMock.Verify(c => c.ExchangeDeclare(_exchangeName, ExchangeType.Fanout, true, false, null), Times.Once);
         }
 
         [Fact]
@@ -50,7 +50,7 @@ namespace Accounting.Tests.AsyncDataServices
             _sut.PublishNewAccount(accountPublishedDto);
 
             // Assert
-            _channel.Verify(c => c.BasicPublish(_exchangeName, String.Empty, false, null, It.IsAny<ReadOnlyMemory<byte>>()), Times.Once);
+            _channelMock.Verify(c => c.BasicPublish(_exchangeName, String.Empty, false, null, It.IsAny<ReadOnlyMemory<byte>>()), Times.Once);
         }
 
         [Fact]
@@ -66,14 +66,14 @@ namespace Accounting.Tests.AsyncDataServices
             }
 
             // Assert
-            _channel.Verify(c => c.Close(), Times.Once);
-            _connection.Verify(c => c.Close(), Times.Once);
+            _channelMock.Verify(c => c.Close(), Times.Once);
+            _connectionMock.Verify(c => c.Close(), Times.Once);
         }
 
         [MemberNotNull(nameof(_sut))]
         private void CreateSUT()
         {
-            _sut = new MessageBusClient(_configuration.Object, _connectionFactory.Object);
+            _sut = new MessageBusClient(_configurationMock.Object, _connectionFactoryMock.Object);
         }
     }
 }
