@@ -1,27 +1,16 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using AutoMapper;
 using Ordering.Dtos;
 
 namespace Ordering.EventProcessing
 {
     public class EventProcessor : IEventProcessor
     {
-        private readonly IServiceScopeFactory _scopeFactory;
-        private readonly IMapper _mapper;
         private readonly IEnumerable<IEventHandler> _eventHandlers;
 
-        public EventProcessor(IServiceScopeFactory scopeFactory, IMapper mapper, IEnumerable<IEventHandler> eventHandlers)
+        public EventProcessor(IEnumerable<IEventHandler> eventHandlers)
         {
-            _scopeFactory = scopeFactory;
-            _mapper = mapper;
             _eventHandlers = eventHandlers;
-
-            JsonSerializerOptions options = new JsonSerializerOptions{
-                Converters ={
-                    new JsonStringEnumConverter()
-                }
-            };
         }
 
         public void ProcessEvent(string message)

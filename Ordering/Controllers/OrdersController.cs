@@ -69,6 +69,7 @@ namespace Ordering.Controllers
             _repository.SaveChanges();
 
             var orderReadDto = _mapper.Map<OrderReadDto>(order);
+            orderReadDto.AccountId = accountId;
 
             return CreatedAtRoute(nameof(GetOrderForAccount), new { accountId = accountId, orderId = orderReadDto.Id}, orderReadDto);
 
