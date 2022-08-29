@@ -6,26 +6,33 @@ namespace Ordering.EventProcessing
 {
     public class EventProcessor : IEventProcessor
     {
-        private readonly IEnumerable<IEventHandler> _eventHandlers;
+        private readonly IServiceProvider _serviceProvider;
 
-        public EventProcessor(IEnumerable<IEventHandler> eventHandlers)
+        public EventProcessor(IServiceProvider serviceProvider)
         {
-            _eventHandlers = eventHandlers;
+            _serviceProvider = serviceProvider;
         }
 
         public void ProcessEvent(string message)
         {
-            EventType eventType = DetermineEvent(message);
-
-            var eventHandler = _eventHandlers.SingleOrDefault(e => e.EventType == eventType);
-
-            if (eventHandler == null)
+            using (var scope = _serviceProvider.CreateScope())
             {
-                Console.WriteLine($"--> Unable to find event handler for event: {eventType}");
-                return;
+                EventType eventType = DetermineEvent(message);
+
+                var eventHandlers = scope.ServiceProvider.GetServices<IEventHandler>();
+
+                var eventHandler = eventHandlers.SingleOrDefault(e => e.EventType == eventType);
+
+                if (eventHandler == null)
+                {
+                    Console.WriteLine($"--> Unable to find event handler for event: {eventType}");
+                    return;
+                }
+
+                eventHandler.Handle(message);
             }
 
-            eventHandler.Handle(message);
+            
         }
 
         private EventType DetermineEvent(string eventMessage)

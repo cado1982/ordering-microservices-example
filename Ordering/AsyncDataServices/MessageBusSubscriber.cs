@@ -67,6 +67,8 @@ namespace Ordering.AsyncDataServices
 
         public void Dispose()
         {
+            Console.WriteLine("--> RabbitMQ connection shutdown");
+
             if (_channel.IsOpen)
             {
                 _channel.Close();

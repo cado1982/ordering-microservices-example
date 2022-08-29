@@ -1,6 +1,7 @@
 using Accounting.AsyncDataServices;
 using Accounting.Data;
 using Accounting.Dtos;
+using Accounting.EventProcessing;
 using Accounting.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -63,7 +64,7 @@ namespace Accounting.Controllers
             try
             {
                 var accountPublishedDto = _mapper.Map<AccountPublishedDto>(accountReadDto);
-                accountPublishedDto.Event = "Account_Published";
+                accountPublishedDto.EventType = EventType.AccountPublished;
                 _messageBusClient.PublishNewAccount(accountPublishedDto);
             }
             catch (System.Exception ex)

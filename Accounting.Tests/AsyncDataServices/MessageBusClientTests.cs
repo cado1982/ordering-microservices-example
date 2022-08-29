@@ -1,5 +1,6 @@
 using Accounting.AsyncDataServices;
 using Accounting.Dtos;
+using Accounting.EventProcessing;
 using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
 using System.Diagnostics.CodeAnalysis;
@@ -43,7 +44,7 @@ namespace Accounting.Tests.AsyncDataServices
         {
             // Arrange
             CreateSUT();
-            var accountPublishedDto = new AccountPublishedDto { Event = "Account_Published", Id = 10 };
+            var accountPublishedDto = new AccountPublishedDto { EventType = EventType.AccountPublished, Id = 10 };
 
             // Act
             _sut.PublishNewAccount(accountPublishedDto);

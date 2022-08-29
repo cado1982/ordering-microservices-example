@@ -23,10 +23,10 @@ else
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IOrdersRepository, OrdersRepository>();
-builder.Services.AddScoped<IEventProcessor, EventProcessor>();
+builder.Services.AddSingleton<IEventProcessor, EventProcessor>();
 builder.Services.AddScoped<IAccountsDataClient, AccountsDataClient>();
 builder.Services.AddHostedService<MessageBusBackgroundService>();
-builder.Services.AddScoped<IMessageBusSubscriber, MessageBusSubscriber>();
+builder.Services.AddSingleton<IMessageBusSubscriber, MessageBusSubscriber>();
 
 builder.Services.AddScoped<IEventHandler, AccountPublishedEventHandler>();
 

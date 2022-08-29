@@ -2,6 +2,7 @@ using Accounting.Dtos;
 using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Accounting.AsyncDataServices
 {
@@ -39,7 +40,12 @@ namespace Accounting.AsyncDataServices
 
         public void PublishNewAccount(AccountPublishedDto accountPublishedDto)
         {
-            var message = JsonSerializer.Serialize(accountPublishedDto);
+            var options = new JsonSerializerOptions
+            {
+                Converters = { new JsonStringEnumConverter() }
+            };
+
+            var message = JsonSerializer.Serialize(accountPublishedDto, options);
 
             if (_connection!.IsOpen)
             {

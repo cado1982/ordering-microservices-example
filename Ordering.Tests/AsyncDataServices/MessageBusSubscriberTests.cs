@@ -28,7 +28,6 @@ namespace Ordering.Tests.AsyncDataServices
             _connectionMock.Setup(c => c.IsOpen).Returns(true);
             _channelMock.Setup(c => c.IsOpen).Returns(true);
             _channelMock.Setup(c => c.QueueDeclare("", false, true, true, null)).Returns(new QueueDeclareOk("", 0, 0));
-
         }
 
         [MemberNotNull(nameof(_sut))]
