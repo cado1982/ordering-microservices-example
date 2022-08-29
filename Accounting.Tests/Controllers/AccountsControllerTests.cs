@@ -1,14 +1,10 @@
-using System.Diagnostics.CodeAnalysis;
 using Accounting.AsyncDataServices;
 using Accounting.Controllers;
 using Accounting.Data;
-using Accounting.Dtos;
 using Accounting.Models;
 using Accounting.Profiles;
-using AutoMapper;
 using Bogus;
-using Microsoft.AspNetCore.Mvc;
-using Moq;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Accounting.Tests.Controllers;
 
@@ -32,7 +28,7 @@ public partial class AccountsControllerTests
         var config = new MapperConfiguration(cfg => cfg.AddProfile(autoMapperProfile));
         _mapper = new Mapper(config);
     }
-    
+
     [MemberNotNull(nameof(_sut))]
     private void CreateSUT()
     {

@@ -1,8 +1,8 @@
-using System.Text.Json;
 using AutoMapper;
 using Ordering.Data;
 using Ordering.Dtos;
 using Ordering.Models;
+using System.Text.Json;
 
 namespace Ordering.EventProcessing
 {

@@ -28,7 +28,7 @@ namespace Accounting.Data
         public Account? GetAccountById(int id)
         {
             return _context.Accounts.FirstOrDefault(a => a.Id == id);
-        }        
+        }
 
         public bool SaveChanges()
         {

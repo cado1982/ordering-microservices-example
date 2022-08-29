@@ -1,10 +1,9 @@
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
-using Moq;
 using Ordering.AsyncDataServices;
 using Ordering.EventProcessing;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Ordering.Tests.AsyncDataServices
 {
@@ -29,7 +28,7 @@ namespace Ordering.Tests.AsyncDataServices
             _connectionMock.Setup(c => c.IsOpen).Returns(true);
             _channelMock.Setup(c => c.IsOpen).Returns(true);
             _channelMock.Setup(c => c.QueueDeclare("", false, true, true, null)).Returns(new QueueDeclareOk("", 0, 0));
-            
+
         }
 
         [MemberNotNull(nameof(_sut))]

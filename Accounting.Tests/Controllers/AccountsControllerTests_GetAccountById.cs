@@ -42,7 +42,7 @@ namespace Accounting.Tests.Controllers
 
             // Act
             var response = _sut.GetAccountById(1);
-            
+
             // Assert
             Assert.IsType<NotFoundResult>(response.Result);
         }

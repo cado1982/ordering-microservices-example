@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Bogus;
-using Moq;
+﻿using Bogus;
 using Ordering.Controllers;
 using Ordering.Data;
 using Ordering.Models;

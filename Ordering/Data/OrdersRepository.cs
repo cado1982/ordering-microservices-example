@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Ordering.Models;
 
 namespace Ordering.Data
@@ -46,7 +42,7 @@ namespace Ordering.Data
             return _context.Accounts.ToList();
         }
 
-        public Order GetOrder(int orderId, int accountId)
+        public Order? GetOrder(int orderId, int accountId)
         {
             return _context.Orders
                 .Where(o => o.AccountId == accountId && o.Id == orderId)

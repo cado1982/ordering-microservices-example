@@ -1,7 +1,6 @@
 using Accounting.Dtos;
 using Accounting.Models;
 using Microsoft.AspNetCore.Mvc;
-using Moq;
 
 namespace Accounting.Tests.Controllers
 {

@@ -1,6 +1,6 @@
+using Ordering.Dtos;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Ordering.Dtos;
 
 namespace Ordering.EventProcessing
 {
@@ -32,7 +32,8 @@ namespace Ordering.EventProcessing
         {
             Console.WriteLine($"--> Determining event type {eventMessage}");
 
-            var options = new JsonSerializerOptions{
+            var options = new JsonSerializerOptions
+            {
                 Converters = { new JsonStringEnumConverter() }
             };
 

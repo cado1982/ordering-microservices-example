@@ -1,7 +1,7 @@
-using System.Text;
-using System.Text.Json;
 using Accounting.Dtos;
 using RabbitMQ.Client;
+using System.Text;
+using System.Text.Json;
 
 namespace Accounting.AsyncDataServices
 {
@@ -15,7 +15,7 @@ namespace Accounting.AsyncDataServices
         {
             _configuration = configuration;
 
-            try 
+            try
             {
                 _connection = connectionFactory.CreateConnection();
                 _channel = _connection.CreateModel();
@@ -66,7 +66,7 @@ namespace Accounting.AsyncDataServices
             var body = Encoding.UTF8.GetBytes(message);
 
             _channel.BasicPublish(
-                exchange: _configuration["RabbitMQExchange"], 
+                exchange: _configuration["RabbitMQExchange"],
                 routingKey: string.Empty,
                 basicProperties: null,
                 body: body);

@@ -7,9 +7,9 @@ namespace Accounting.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> opt) : base(opt)
         {
-            
+
         }
 
-        public DbSet<Account>? Accounts { get; set; }
-    } 
+        public DbSet<Account> Accounts => Set<Account>();
+    }
 }

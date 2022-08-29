@@ -1,11 +1,6 @@
-using Moq;
 using Ordering.EventProcessing;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Ordering.Tests.EventProcessing
 {
@@ -23,10 +18,10 @@ namespace Ordering.Tests.EventProcessing
         [MemberNotNull(nameof(_sut))]
         private void CreateSUT()
         {
-            _sut = new EventProcessor(new [] { _eventHandlerMock.Object });
+            _sut = new EventProcessor(new[] { _eventHandlerMock.Object });
         }
 
-        [Fact]  
+        [Fact]
         public void ProcessEvent_DeterminesCorrectEvent()
         {
             // Arrange

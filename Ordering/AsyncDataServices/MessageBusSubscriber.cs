@@ -1,8 +1,8 @@
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
 using Ordering.EventProcessing;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 namespace Ordering.AsyncDataServices
 {

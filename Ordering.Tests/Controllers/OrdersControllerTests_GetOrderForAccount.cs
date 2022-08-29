@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ordering.Dtos;
 using Ordering.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ordering.Tests.Controllers
 {
@@ -58,7 +53,7 @@ namespace Ordering.Tests.Controllers
             // Assert
             var okObjectResult = Assert.IsType<OkObjectResult>(response.Result);
             var returnValue = Assert.IsType<OrderReadDto>(okObjectResult.Value);
-            
+
             Assert.Equal(order.AccountId, returnValue.AccountId);
             Assert.Equal(order.Cost, returnValue.Cost);
             Assert.Equal(order.Id, returnValue.Id);

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Accounting.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +7,7 @@ namespace Accounting.Data
     {
         public static void PrepPopulation(IApplicationBuilder app, bool isProd)
         {
-            using( var serviceScope = app.ApplicationServices.CreateScope())
+            using (var serviceScope = app.ApplicationServices.CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
 
@@ -21,20 +17,20 @@ namespace Accounting.Data
 
         private static void SeedData(AppDbContext context, bool isProd)
         {
-            if(isProd)
+            if (isProd)
             {
                 Console.WriteLine("--> Attempting to apply migrations...");
                 try
                 {
                     context.Database.Migrate();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine($"--> Could not run migrations: {ex.Message}");
                 }
             }
-            
-            if(!context.Accounts.Any())
+
+            if (!context.Accounts.Any())
             {
                 Console.WriteLine("--> Seeding Data...");
 

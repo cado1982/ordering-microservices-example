@@ -16,8 +16,8 @@ if (builder.Environment.IsProduction())
 }
 else
 {
-   Console.WriteLine("--> Using In Memory Database");
-   builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("OrderingInMem"));
+    Console.WriteLine("--> Using In Memory Database");
+    builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("OrderingInMem"));
 }
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Ordering.Models;
 
 namespace Ordering.Data
@@ -16,7 +12,7 @@ namespace Ordering.Data
         void CreateAccount(Account account);
 
         IEnumerable<Order> GetOrdersForAccount(int accountId);
-        Order GetOrder(int orderId, int accountId);
+        Order? GetOrder(int orderId, int accountId);
         void CreateOrder(int accountId, Order order);
     }
 }

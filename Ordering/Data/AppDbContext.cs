@@ -7,11 +7,11 @@ namespace Ordering.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> opt) : base(opt)
         {
-            
+
         }
 
-        public DbSet<Order>? Orders { get; set; }
-        public DbSet<Account>? Accounts { get; set; }
+        public DbSet<Order> Orders => Set<Order>();
+        public DbSet<Account> Accounts => Set<Account>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

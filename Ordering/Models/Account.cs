@@ -11,6 +11,6 @@ namespace Ordering.Models
         [Required]
         public int ExternalId { get; set; }
 
-        public ICollection<Order> Orders { get; set; }
+        public ICollection<Order>? Orders { get; set; }
     }
 }

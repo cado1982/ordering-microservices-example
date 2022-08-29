@@ -4,12 +4,7 @@ using Accounting.Profiles;
 using Accounting.SyncDataServices.Grpc;
 using Grpc.Core;
 using Grpc.Core.Testing;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Accounting.Tests.SyncDataServices.Grpc
 {
@@ -53,7 +48,6 @@ namespace Accounting.Tests.SyncDataServices.Grpc
                 writeOptionsSetter: (writeOptions) => { });
             _accountingRepository.Setup(r => r.GetAccounts()).Returns(new List<Account> { account });
 
-
             // Act
             var response = await _sut.GetAllAccounts(request, context);
 
@@ -61,9 +55,6 @@ namespace Accounting.Tests.SyncDataServices.Grpc
             Assert.NotNull(response);
             var grpcAccountModel = Assert.Single(response.Accounts);
             Assert.Equal(10, grpcAccountModel.Id);
-
-
-
         }
     }
 }

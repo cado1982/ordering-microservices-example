@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Ordering.Models;
 using Ordering.SyncDataService.Grpc;
@@ -12,7 +8,7 @@ namespace Ordering.Data
     {
         public static void PrepPopulation(IApplicationBuilder app, bool isProd)
         {
-            using(var serviceScope = app.ApplicationServices.CreateScope())
+            using (var serviceScope = app.ApplicationServices.CreateScope())
             {
                 var grpcClient = serviceScope.ServiceProvider.GetService<IAccountsDataClient>()!;
                 var repo = serviceScope.ServiceProvider.GetService<IOrdersRepository>()!;

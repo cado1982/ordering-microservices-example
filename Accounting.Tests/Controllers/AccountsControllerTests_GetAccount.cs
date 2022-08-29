@@ -10,7 +10,7 @@ namespace Accounting.Tests.Controllers
         {
             // Arrange
             CreateSUT();
-            
+
             // Act
             var response = _sut.GetAccounts();
 
@@ -24,14 +24,14 @@ namespace Accounting.Tests.Controllers
             // Arrange
             CreateSUT();
             SetupGetAccounts(5);
-            
+
             // Act
             var response = _sut.GetAccounts();
 
             // Assert
             var list = response.Result as OkObjectResult;
             Assert.IsType<List<AccountReadDto>>(list!.Value);
-            
+
             var accounts = list.Value as List<AccountReadDto>;
             Assert.Equal(5, accounts!.Count);
         }

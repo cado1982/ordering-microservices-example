@@ -15,8 +15,8 @@ if (builder.Environment.IsProduction())
 }
 else
 {
-   Console.WriteLine("--> Using In Memory Database");
-   builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("AccountingInMem"));
+    Console.WriteLine("--> Using In Memory Database");
+    builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("AccountingInMem"));
 }
 
 builder.Services.AddControllers();
@@ -54,7 +54,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapGrpcService<GrpcAccountingService>();
-app.MapGet("/protos/accounts.proto", async context => {
+app.MapGet("/protos/accounts.proto", async context =>
+{
     await context.Response.WriteAsync(File.ReadAllText("Protos/accounts.proto"));
 });
 

@@ -29,6 +29,6 @@ namespace Accounting.SyncDataServices.Grpc
 
             return Task.FromResult(response);
         }
-        
+
     }
 }
