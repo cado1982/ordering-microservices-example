@@ -38,7 +38,7 @@ classDiagram
 
 When the Ordering service starts up it calls a gRPC endpoint on the Account service to retrieve the list of accounts. It then inserts any missing accounts into the Ordering SQL Server database.
 
-While the Ordering service is running, it is listening for the RabbitMQ message that is published by the Account service whenever a new account is created. It then consumes that message and insert the new account into the Ordering SQL Server database.
+While the Ordering service is running, it is listening for the RabbitMQ message that is published by the Account service whenever a new account is created. It then consumes that message and inserts the new account into the Ordering SQL Server database.
 
 ## Kubernetes
 
